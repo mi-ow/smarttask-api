@@ -97,4 +97,12 @@ public class TaskService {
                         "Task not found with id: " + id));
         taskRepository.delete(task);
     }
+
+    public List<TaskResponse> getTasksByStatus(TaskStatus status) {
+        User user = getLoggedInUser();
+        return taskRepository.findByUserIdAndStatus(user.getId(), status)
+                .stream()
+                .map(this::mapToResponse)
+                .collect(Collectors.toList());
+    }
 }
